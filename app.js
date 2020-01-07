@@ -3,7 +3,7 @@
 //requires (cargar librerias)
 var express = require('express');
 var bodyParser = require('body-parser');
-var path = require('path');
+var path = require('path'); 
 
 //ejecutar expressacce
 var app = express();
@@ -18,7 +18,8 @@ var ipclient_routes = require('./routes/ipclient');
 var ftpclient_routes = require('./routes/ftpclient');
 var mailclient_routes = require('./routes/mailclient');
 var proyectoclient_routes = require('./routes/proyectoclient');
-
+var enviarmail_routes = require('./routes/enviarmail');
+var nota_routes = require('./routes/nota');
 
 //middlewares
 app.use(bodyParser.urlencoded({extended: false}));
@@ -37,7 +38,6 @@ app.use((req, res, next) => {
 
 //Reescribir rutas
 app.use('/', express.static('client',{redirect: false}));
-
 app.use('/api', user_routes);
 app.use('/api', acceso_routes);
 app.use('/api', clientdoc_routes);
@@ -47,11 +47,12 @@ app.use('/api', ipclient_routes);
 app.use('/api', ftpclient_routes);
 app.use('/api', mailclient_routes);
 app.use('/api', proyectoclient_routes);
+app.use('/api', enviarmail_routes);
+app.use('/api', nota_routes);
 
 app.get('*', function(req,res,next){
-	res.sendFile(path.resolve('client/index.html'));
-});
-
+			res.sendFile(path.resolve('client/index.html'));
+		});
 
 //exportar el modulo
 module.exports = app;

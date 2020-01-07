@@ -32,12 +32,13 @@ var controller = {
 			var validate_surname = !validator.isEmpty(params.surname);
 			var validate_email = !validator.isEmpty(params.email) && validator.isEmail(params.email);
 			var validate_password = !validator.isEmpty(params.password);
+			var validate_idsistemaadmin = !validator.isEmpty(params.idsistemaadmin);
 		}catch(err){
 			return res.status(500).send({
 				message: "Faltan datos por enviar"
 			});	
 		}
-		if (validate_name &&  validate_surname && validate_email && validate_password){
+		if (validate_name &&  validate_surname && validate_email && validate_password && validate_idsistemaadmin){
 			//cear el objeto de usuario
 			var user = new User();
 
@@ -47,7 +48,7 @@ var controller = {
 			user.email = params.email.toLowerCase();
 			user.role ='ROLE_USER';
 			user.image= null;
-			user.idsistemaadmin=0;
+			user.idsistemaadmin = params.idsistemaadmin;
 
 			//comprobar si usuario existe
 			User.findOne({email: user.email}, (err, issetUser) => {
